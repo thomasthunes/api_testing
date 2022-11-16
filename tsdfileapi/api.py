@@ -2502,6 +2502,9 @@ class Backends(object):
                     print("test 3")
                     self.initdb(name, options)
         print("test 4")
+        print(self.config)
+        print("---------------------------------------------------")
+        print(self.config.get('backends'))
         if self.config.get('rabbitmq', {}).get('enabled'):
             print("test 5")
             print(colored('Finding rabbitmq exchanges', 'magenta'))
