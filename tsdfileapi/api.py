@@ -2493,15 +2493,15 @@ class Backends(object):
         if db_backends:
             define('pgpools', {})
             print(colored('Initialising database backends', 'magenta'))
-            print("test 1")
+            print("test a")
             for name, backend in db_backends:
-                print("test 2")
+                print("test b")
                 db_backend = self.database_backends[backend['db']['engine']]
                 print(colored(f"DB backend: {backend['db']['engine']}, {name}", 'cyan'))
                 if db_backend.generator_class.db_init_sql:
-                    print("test 3")
+                    print("test c")
                     self.initdb(name, options)
-        print("test 4")
+        print("test d")
         if self.config.get('rabbitmq', {}).get('enabled'):
             print(colored('Finding rabbitmq exchanges', 'magenta'))
             for backend_set in self.config['backends']:
