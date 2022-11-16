@@ -18,6 +18,14 @@ jwt_secret: None
 nacl_public: {'public': 'mZQEzkyi7bCvmDVfHGsU/7HX1+gT/R3PkSnyDU4OaiY=', 'private': 'fTEB1MZz8MskkZHSIM9ypxJc4e45Z8fmLGGXkUrp1hQ='}
 test_nacl_public: {'public': 'mZQEzkyi7bCvmDVfHGsU/7HX1+gT/R3PkSnyDU4OaiY=', 'private': 'fTEB1MZz8MskkZHSIM9ypxJc4e45Z8fmLGGXkUrp1hQ='}
 log_level: info
+
+# tt test
+rabbitmq:
+  enabled: True
+
+
+# ----------------------
+
 backends:
   disk:
     files_import:
@@ -187,5 +195,6 @@ gpg_homedir: '/root/.gnupg/'
 gpg_keyring: 'pubring.gpg'
 gpg_secring: 'secring.gpg'
 test_key_dir: '/root/tsd-file-api/tsdfileapi/tests/'
+
 
 
