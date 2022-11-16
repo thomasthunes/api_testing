@@ -1,0 +1,204 @@
+{
+    "form_id":63332,
+    "type": "codebook",
+    "definition": {
+        "formId":63332,
+        "pages":[
+            {
+                "pageId":24323,
+                "elements":[
+                    {
+                        "elementId":402993,
+                        "elementType":"RADIO",
+                        "maxSelectedAnswerOptions":null,
+                        "description":null,
+                        "title":null,
+                        "questions":[{
+                            "questionId":360458,
+                            "text":"Bekreftelse på deltakelse i studien",
+                            "description":"",
+                            "mandatory":true,
+                            "published":false,
+                            "horizontal":false,
+                            "externalQuestionId":"consent",
+                            "answerOptions":[{
+                                "answerOptionId":830235,
+                                "text":"",
+                                "preselected":false,
+                                "correct":false,
+                                "externalAnswerOptionId":"1"}
+                            ]}],
+                        "answerOptions":[],
+                        "visibilityAnswerOptionIds":[]
+                    },
+                    {
+                        "elementId":402995,
+                        "elementType":"NUMBER",
+                        "maxSelectedAnswerOptions":null,
+                        "description":null,
+                        "title":null,
+                        "questions":[{
+                            "questionId":360459,
+                            "text":"",
+                            "mandatory":true,
+                            "published":false,
+                            "horizontal":false,
+                            "externalQuestionId":"age",
+                            "answerOptions":[]
+                            }],
+                        "answerOptions":[],
+                        "visibilityAnswerOptionIds":[]
+                    },
+                    {
+                        "elementId":402999,
+                        "elementType":"EMAIL",
+                        "maxSelectedAnswerOptions":null,
+                        "description":null,
+                        "title":null,
+                        "questions":[{
+                            "questionId":360463,
+                            "text":"E-post adresse:",
+                            "description":null,
+                            "mandatory":true,
+                            "published":false,
+                            "horizontal":false,
+                            "externalQuestionId":"email_address",
+                            "answerOptions":[]
+                            }],
+                        "answerOptions":[],
+                        "visibilityAnswerOptionIds":[]
+                    },
+                    {
+                        "elementId":403001,
+                        "elementType":"NATIONAL_ID_NUMBER",
+                        "maxSelectedAnswerOptions":null,
+                        "description":null,
+                        "title":null,"questions":[{
+                            "questionId":360465,
+                            "text":"Fødselsnummer:",
+                            "description":"",
+                            "mandatory":true,
+                            "published":false,
+                            "horizontal":false,
+                            "externalQuestionId":"national_id_number",
+                            "answerOptions":[]
+                            }],
+                        "answerOptions":[],
+                        "visibilityAnswerOptionIds":[]},
+                    {
+                        "elementId":403002,
+                        "elementType":"QUESTION",
+                        "maxSelectedAnswerOptions":null,
+                        "description":null,
+                        "title":null,
+                        "questions":[{
+                            "questionId":360466,
+                            "text":"Telefonnummer",
+                            "description":"",
+                            "mandatory":true,
+                            "published":false,
+                            "horizontal":false,
+                            "externalQuestionId":"phone_number",
+                            "answerOptions":[]
+                            }],
+                        "answerOptions":[],
+                        "visibilityAnswerOptionIds":[]},
+                    {
+                        "elementId": 451918,
+                        "elementType": "CHECKBOX",
+                        "maxSelectedAnswerOptions": 0,
+                        "description": null,
+                        "title": null,
+                        "questions": [{
+                            "questionId": 408944,
+                            "text": "Lukket spørsmål med Avkryssing oblig Publisert; ett forvalg",
+                            "description": "<p>Beskrivelse for lukket spørsmål med Avkryssing (kan, kan ikke, vil ikke, vet ikke) Vet ikke = forvalgt Publisert</p>\n",
+                            "mandatory": true,
+                            "published": true,
+                            "horizontal": false,
+                            "externalQuestionId": "children_ages",
+                            "answerOptions": [
+                                {
+                                    "answerOptionId": 931451,
+                                    "text": "Kan",
+                                    "preselected": false,
+                                    "correct": false
+                                },
+                                {
+                                    "answerOptionId": 931452,
+                                    "text": "Kan ikke",
+                                    "preselected": false,
+                                    "correct": false
+                                },
+                                {
+                                    "answerOptionId": 931453,
+                                    "text": "Vil ikke",
+                                    "preselected": false,
+                                    "correct": false
+                                },
+                                {
+                                    "answerOptionId": 931454,
+                                    "text": "Vet ikke",
+                                    "preselected": true,
+                                    "correct": false
+                                }
+                              ]
+                            }
+                          ],
+                          "answerOptions": [],
+                          "visibilityAnswerOptionIds": []
+                    },
+                    {
+                        "elementId": 451925,
+                        "elementType": "MATRIX_CHECKBOX",
+                        "maxSelectedAnswerOptions": 0,
+                        "description": null,
+                        "title": null,
+                        "questions": [
+                            {
+                                "questionId": 408948,
+                                "text": "Spørsmål 1 i kryssboksmatrise; oblig  & Publisert",
+                                "description": null,
+                                "mandatory": true,
+                                "published": true,
+                                "horizontal": false,
+                                "externalQuestionId": "var1",
+                                "answerOptions": []
+                            },
+                            {
+                                "questionId": 408949,
+                                "text": "Spørsmål 2 i kryssboksmatrise Ikke Oblig; Ikke Publisert",
+                                "description": null,
+                                "mandatory": false,
+                                "published": false,
+                                "horizontal": false,
+                                "externalQuestionId": "var2",
+                                "answerOptions": []
+                            }
+                        ],
+                        "answerOptions": [
+                            {
+                                "answerOptionId": 931462,
+                                "text": "Ja",
+                                "preselected": false,
+                                "correct": false
+                            },
+                            {
+                                "answerOptionId": 931463,
+                                "text": "Nei",
+                                "preselected": false,
+                                "correct": false
+                            },
+                            {
+                                "answerOptionId": 931464,
+                                "text": "Ukjent",
+                                "preselected": false,
+                                "correct": false
+                            }
+                        ],
+                        "visibilityAnswerOptionIds": []
+                    }
+                ]
+            }]
+        }
+}

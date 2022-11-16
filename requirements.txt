@@ -1,0 +1,17 @@
+jwcrypto==0.6.0
+pyyaml==5.4
+tornado==6.0.3
+click==8.0
+requests==2.22.0
+pretty-bad-protocol==3.1.1
+sqlalchemy==1.3.8
+psycopg2-binary==2.9.3
+python-magic==0.4.15
+tsd-api-client==3.5.2
+humanfriendly==4.18
+progress==1.5
+termcolor==1.1.0
+libnacl==1.7.1
+pika==1.1.0
+six==1.15.0
+https://github.com/unioslo/pysquril/archive/refs/tags/v0.1.5.tar.gz

@@ -1,0 +1,176 @@
+#!/usr/bin/env python
+
+"""
+Called in a sub-process by the file-api as a request hook:
+
+subprocess.call(['sudo', '/bin/generic-chowner', 'path-to-file', 'username', api_user, group_name])
+
+Setup
+-----
+visudo -f /etc/sudoers.d/<fileapiuser>
+
+Defaults:fileapiuser            !requiretty
+fileapiuser ALL = (ALL) NOPASSWD: <path/to/executable>
+
+"""
+
+from sys import argv
+import os
+import pwd
+import re
+import logging
+import grp
+import shutil
+import glob
+import stat
+
+
+def recursive_chown_and_chmod(path, uid, gid, mode):
+    for item in glob.glob(path + '/*'):
+        if os.path.isdir(item):
+            recursive_chown_and_chmod(os.path.join(path, item), uid, gid)
+        else:
+            os.chown(item, uid, gid)
+            os.chmod(item, mode)
+
+def change_owner_and_mode(path, username, api_user, group_name):
+    """
+    Change the ownership of a path, recursively.
+
+    This function will only change ownership of files that
+    belongs to the api_user, or users within the same project
+    as the username provided in the JWT. In principle then,
+    this script only changes ownership of files uploaded via
+    the file API.
+
+    Uploads performed without 2FA do not have user claims
+    corresponding to TSD identities, so the files will be
+    owned by the file API user, and located in the default
+    pXX-member-group folder.
+
+    Parameters
+    ----------
+    path: str, newly uploaded file created by file API
+    username: str, user claim from JWT
+    api_user: str, user running the file API process
+    group_name: str, name of the group permissions to set on the file
+
+    Returns
+    -------
+    boolean
+
+    """
+    mode = stat.S_IREAD | stat.S_IWRITE | stat.S_IRGRP | stat.S_IWGRP
+    try:
+        try:
+            user = pwd.getpwnam(username).pw_uid
+        except Exception:
+            user = pwd.getpwnam(api_user).pw_uid
+        current_file_uid = os.stat(path).st_uid
+        current_file_owner = pwd.getpwuid(current_file_uid).pw_name
+        if current_file_owner == username:
+            return True
+        elif current_file_owner == api_user:
+            pass
+        elif pnum_is_consistent_in_user_input(path, current_file_owner):
+            pass
+        else:
+            logging.error('not allowed to change ownership of %s to %s', path, username)
+            return False
+        pnum = path.split('/')[2]
+        group = grp.getgrnam(group_name).gr_gid
+    except Exception as e:
+        logging.error(e)
+        logging.error('could not get uid for %s and/or gid for member group', username)
+        return False
+    os.chown(path, user, group)
+    os.chmod(path, mode)
+    if os.path.isdir(path):
+        recursive_chown_and_chmod(path, user, group, mode)
+    return True
+
+def move_data_to_group_folder(path, group_name, api_user):
+    """
+    Move uploaded data (files and folders) to group folder.
+
+    Moves data from /tsd/pXX/data/durable/file-import to
+    /tsd/pXX/data/durable/file-import/pXX-group-name.
+
+    The group folder is created if it does not exist, and the
+    ownership is set to file-api-user:pXX-group-name. Users
+    can delete from the group folder, or move files away from
+    there, but not from the file-import folder - we own that.
+
+    If the data is directory it is moved recursively.
+
+    Parameters
+    ----------
+    path: str, uploaded file or folder
+    group_name: name of the group folder (and permissions)
+    api_user: user running the API process
+
+    Returns
+    -------
+    boolean
+
+    """
+    mode = stat.S_ISGID | stat.S_IRWXU | stat.S_IRWXG | stat.S_IROTH
+    try:
+        path_segments = path.split('/')
+        filename = path_segments[-1]
+        pnum = path_segments[2]
+        new_base_path = path.replace(filename, group_name)
+        group_folder = os.path.normpath(new_base_path)
+        if not os.path.lexists(group_folder):
+            logging.info('creating: %s', group_folder)
+            os.makedirs(group_folder)
+            file_api_user_id = pwd.getpwnam(api_user).pw_uid
+            group_id = grp.getgrnam(group_name).gr_gid
+            os.chown(group_folder, file_api_user_id, group_id)
+            os.chmod(group_folder, mode) # only need this after creation
+        new_path = os.path.normpath(group_folder + '/' + filename)
+        if os.path.isdir(path):
+            if os.path.lexists(new_path):
+                shutil.rmtree(new_path)
+            shutil.move(path, new_path)
+        else:
+            os.rename(path, new_path)
+        logging.info('successfully moved: %s', path)
+        return new_path
+    except Exception as e:
+        logging.error(e)
+        logging.error('could not move file: %s', path)
+        return False
+
+def main():
+    """
+    Validate input from the caller, move data to group folder,
+    set permission on data.
+
+    If we cannot move it, we do not change ownership. The file API
+    writes data as -rw------- and is the owner of the uploaded files.
+    Leaving it as is means the file-api can over-write on a next upload
+    and the file mode means no-one can read it, so no access control is
+    violated. Fail safely.
+
+    """
+    if len(argv) < 4:
+        return
+    logging.basicConfig(filename='/tmp/chowner-events.log', level=logging.INFO)
+    path = os.path.normpath(argv[1])
+    user_name = argv[2]
+    api_user = argv[3]
+    group_name = argv[4]
+    try:
+        assert os.path.isabs(path)
+        new_path = move_data_to_group_folder(path, group_name, api_user)
+        assert new_path
+        assert change_owner_and_mode(new_path, user_name, api_user, group_name)
+    except Exception as e:
+        logging.error(e)
+        logging.error('Could not change %s to owner %s', path, user_name)
+        return False
+    return True
+
+if __name__ == '__main__':
+    main()

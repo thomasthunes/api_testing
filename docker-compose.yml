@@ -1,0 +1,44 @@
+version: "3.5"
+
+services:
+  tsd-file-api:
+    image: tsd-file-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: run
+    ports:
+      - 3004:3003
+    environment:
+      - TSD_FILE_API_CONFIG=/etc/tsd/tsd-file-api/config.yaml
+    volumes:
+      - type: bind
+        source: ././tsdfileapi/config/config.yaml
+        target: /etc/tsd/tsd-file-api/config.yaml
+      - type: bind
+        source: ./tsdfileapi/tests/.gnupg/
+        target: /home/appuser/.gnupg/
+  tsd-file-api-dev:
+    image: tsd-file-api-dev
+    build:
+     context: .
+     dockerfile: Dockerfile
+     target: dev
+    ports:
+     - 3003:3003
+    volumes:
+     - type: bind
+       source: ./
+       target: /root/tsd-file-api/
+     - type: bind
+       source: ./tsdfileapi/config/
+       target: /etc/tsd/tsd-file-api/
+     - type: bind
+       source: ./tsdfileapi/tests/.gnupg/
+       target:  /root/.gnupg/
+  tsd-file-api-rpm:
+    image: tsd-file-api-rpm
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: rpm

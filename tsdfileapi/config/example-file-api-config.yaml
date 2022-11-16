@@ -1,0 +1,110 @@
+
+# API wide
+port: 3003
+debug: True
+api_user: 'nobody'
+token_check_tenant: True
+token_check_exp: True
+disallowed_start_chars: ''
+requestor_claim_name: 'user'
+tenant_claim_name: 'proj'
+valid_tenant_regex: '^[0-9a-z]+$'
+tenant_string_pattern: 'pXX'
+export_max_num_list: 100
+export_chunk_size: 512000
+
+# endpoint backends
+backends:
+  disk:
+    cluster:
+      import_path: '/cluster/pXX/import'
+      export_path: '~/tsd-file-api/tsdfileapi/data/tsd/pXX/export'
+      request_hook:
+        enabled: True
+        path: '/usr/local/bin/chowner'
+        sudo: True
+      export_policy:
+        default:
+          enabled: False
+      group_logic:
+        enabled: True
+        default_url_group: 'pXX-some-group'
+        default_memberships:
+        ensure_tenant_in_group_name: True
+        valid_group_regex: 'p[0-9]+-[a-z-]+'
+        enforce_membership: True
+
+    files:
+      import_path: '/pXX/import'
+      export_path: '~/tsd-file-api/tsdfileapi/data/tsd/pXX/export'
+      request_hook:
+        enabled: True
+        path: '/usr/local/bin/chowner'
+        sudo: True
+      export_policy:
+        default:
+          enabled: False
+          allowed_mime_types:
+            - '*'
+          max_size: False
+        p11:
+          enabled: True
+          allowed_mime_types:
+            - '*'
+          max_size: 30000000
+      group_logic:
+        enabled: True
+        default_url_group: 'pXX-some-group'
+        default_memberships:
+        ensure_tenant_in_group_name: True
+        valid_group_regex: 'p[0-9]+-[a-z-]+'
+        enforce_membership: True
+
+    store:
+      import_path: '/pXX/store'
+      export_path: '/pXX/store'
+      export_policy:
+        default:
+          enabled: False
+      group_logic:
+        enabled: False
+      request_hook:
+          enabled: False
+
+    survey:
+      import_path: '/pXX/survey'
+
+    sns:
+      import_path: '/pXX/survey/KEYID/FORMID'
+      subfolder_path: '/pXX/.tsd/KEYID/FORMID'
+      request_hook:
+          enabled: False
+          path: False
+          sudo: False
+
+    form_data:
+      import_path: 'pXX/import'
+      request_hook:
+          enabled: False
+          path: False
+          sudo: False
+
+  sqlite:
+    generic:
+      db_path: '/pXX/import'
+    survey:
+      db_path: '/pXX/import'
+
+# testing
+data_folder: '~/tsd-file-api/tsdfileapi/data'
+test_project: 'p11'
+test_keyid: '264CE5ED60A7548B'
+test_formid: '123456'
+test_user: 'p11-nobody'
+test_group: 'p11-some-group'
+public_key_id: '264CE5ED60A7548B'
+gpg_binary: '/usr/local/bin/gpg'
+gpg_homedir: '~/.gnupg'
+gpg_keyring: 'pubring.gpg'
+gpg_secring: 'secring.gpg'
+test_key_dir: '~/tsd-file-api/tsdfileapi/tests'

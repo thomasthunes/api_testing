@@ -1,0 +1,191 @@
+port: 3003
+debug: True
+api_user: root
+token_check_tenant: True
+token_check_exp: True
+disallowed_start_chars: ''
+requestor_claim_name: user
+tenant_claim_name: proj
+valid_tenant_regex: ^[0-9a-z]+$
+tenant_string_pattern: pXX
+export_max_num_list: 100
+export_chunk_size: 512000
+max_body_size: 5368709120
+default_file_owner: pXX-nobody
+create_tenant_dir: True
+jwt_test_secret: jS25aQbePizfTsetg8LbFsNKl1W6wi4nQaBj705ofWA=
+jwt_secret: None
+nacl_public: {'public': 'mZQEzkyi7bCvmDVfHGsU/7HX1+gT/R3PkSnyDU4OaiY=', 'private': 'fTEB1MZz8MskkZHSIM9ypxJc4e45Z8fmLGGXkUrp1hQ='}
+test_nacl_public: {'public': 'mZQEzkyi7bCvmDVfHGsU/7HX1+gT/R3PkSnyDU4OaiY=', 'private': 'fTEB1MZz8MskkZHSIM9ypxJc4e45Z8fmLGGXkUrp1hQ='}
+log_level: info
+backends:
+  disk:
+    files_import:
+      allow_list: true
+      export_policy:
+        default:
+          enabled: false
+      request_hook:
+        path: /usr/local/bin/chowner
+        sudo: false
+        enabled: false
+      allow_export: true
+      allow_delete: true
+      allow_info: true
+      group_logic:
+        valid_group_regex: 'p[0-9]+-[a-z-]+'
+        default_url_group: pXX-member-group
+        default_memberships:
+          - pXX-member-group
+        enforce_membership: false
+        enabled: true
+        ensure_tenant_in_group_name: false
+      has_posix_ownership: false
+      import_path: /tmp/pXX
+      export_max_num_list: None
+      export_path: /tmp/pXX/export
+    apps_files:
+      allow_list: true
+      export_policy:
+        default:
+          enabled: false
+      request_hook:
+        enabled: false
+      allow_export: true
+      allow_delete: true
+      allow_info: true
+      group_logic:
+        default_url_group: None
+        default_memberships:
+          - pXX-member-group
+        enabled: false
+      has_posix_ownership: false
+      import_path: /tmp/pXX
+      export_max_num_list: None
+      export_path: /tmp/pXX/export
+    files_export:
+      allow_list: true
+      export_policy:
+        default:
+          enabled: false
+      request_hook:
+        enabled: false
+      allow_export: true
+      allow_delete: true
+      allow_info: true
+      group_logic:
+        default_url_group: None
+        default_memberships:
+          - pXX-member-group
+        enabled: false
+      has_posix_ownership: false
+      import_path: /tmp/pXX
+      export_max_num_list: None
+      export_path: /tmp/pXX/export
+    cluster:
+      allow_list: true
+      export_policy:
+        default:
+          enabled: false
+      request_hook:
+        path: /usr/local/bin/chowner
+        sudo: false
+        enabled: false
+      allow_export: true
+      allow_delete: true
+      allow_info: true
+      group_logic:
+        valid_group_regex: 'p[0-9]+-[a-z-]+'
+        default_url_group: pXX-member-group
+        default_memberships:
+          - pXX-member-group
+        enforce_membership: false
+        enabled: true
+        ensure_tenant_in_group_name: false
+      has_posix_ownership: false
+      import_path: /tmp/pXX/cluster/
+      export_max_num_list: None
+      export_path: /tmp/pXX/export
+    survey:
+      allow_list: true
+      export_policy:
+        default:
+          enabled: false
+      request_hook:
+        enabled: false
+      allow_export: true
+      allow_delete: true
+      allow_info: true
+      group_logic:
+        valid_group_regex: 'p[0-9]+-[a-z-]+'
+        default_url_group: pXX-member-group
+        default_memberships:
+          - pXX-member-group
+        enforce_membership: false
+        enabled: true
+        ensure_tenant_in_group_name: false
+      has_posix_ownership: false
+      import_path: /tmp/pXX/survey
+      export_max_num_list: None
+      export_path: /tmp/pXX/export
+    sns:
+      request_hook:
+        path: false
+        sudo: false
+        enabled: false
+      import_path: /pXX/survey/KEYID/FORMID
+      subfolder_path: /pXX/.tsd/KEYID/FORMID
+    form_data:
+      request_hook:
+        path: false
+        sudo: false
+        enabled: false
+      import_path: /tmp/pXX/
+    store:
+      allow_list: true
+      export_policy:
+        default:
+          enabled: false
+      request_hook:
+        enabled: false
+      allow_export: true
+      allow_delete: true
+      allow_info: true
+      group_logic:
+        default_url_group: None
+        default_memberships:
+          - pXX-member-group
+        enabled: false
+      has_posix_ownership: false
+      import_path: /tmp/pXX/store
+      export_max_num_list: None
+      export_path: /tmp/pXX/store
+  dbs:
+    survey:
+      db:
+        engine: sqlite
+        path: /pXX/import
+        mq: None
+        table_structure: None
+    apps_tables:
+      db:
+        engine: sqlite
+        path: /tmp/pXX
+        mq: None
+        table_structure: None
+
+# testing
+data_folder: '/root/tsd-file-api/tsdfileapi/data/'
+test_project: 'p11'
+test_keyid:  '43FA347ED76EC595'
+test_formid: '123456'
+test_user: 'p11-nobody'
+test_group: 'p11-member-group'
+public_key_id: '43FA347ED76EC595'
+gpg_binary: '/usr/bin/gpg'
+gpg_homedir: '/root/.gnupg/'
+gpg_keyring: 'pubring.gpg'
+gpg_secring: 'secring.gpg'
+test_key_dir: '/root/tsd-file-api/tsdfileapi/tests/'
+
+
