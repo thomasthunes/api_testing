@@ -19,12 +19,6 @@ nacl_public: {'public': 'mZQEzkyi7bCvmDVfHGsU/7HX1+gT/R3PkSnyDU4OaiY=', 'private
 test_nacl_public: {'public': 'mZQEzkyi7bCvmDVfHGsU/7HX1+gT/R3PkSnyDU4OaiY=', 'private': 'fTEB1MZz8MskkZHSIM9ypxJc4e45Z8fmLGGXkUrp1hQ='}
 log_level: info
 
-# tt test
-rabbitmq:
-  enabled: True
-
-
-# ----------------------
 
 backends:
   disk:
