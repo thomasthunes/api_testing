@@ -2574,6 +2574,8 @@ def main() -> None:
     print("forbi enable_pretty_logging")
     backends = Backends(options.config)
     print("forbi backends")
+    print(f"rabbitmq {options.rabbitmq}")
+    print(f"exchanges {backends.exchanges}")
     pika_client = (
         PikaClient(options.rabbitmq, backends.exchanges) if options.rabbitmq.get('enabled')
         else None
@@ -2600,7 +2602,7 @@ def main() -> None:
         print("forbi add_handler")
     print("before start")
     ioloop.start()
-    print(print("forbi start"))
+    print("forbi start")
 
 
 if __name__ == '__main__':
