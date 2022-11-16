@@ -2511,12 +2511,15 @@ class Backends(object):
                     print("test 7")
                     self.find_exchanges(name, backend)
 
+        print("forbi rabbitmq if")
         if self.config.get('request_log'):
             print(colored('Initialising request log db', 'magenta'))
             try:
                 self.initdb_request_log()
             except Exception as e:
                 logging.warning(f'could not connect to request log db: {e}')
+
+        print("forbi request_log if")
 
     def initdb(self, name: str, opts: tornado.options.OptionParser) -> None:
         print("test 1 db")
@@ -2566,24 +2569,37 @@ class Backends(object):
 
 
 def main() -> None:
+    print("main begynner")
     tornado.log.enable_pretty_logging()
+    print("forbi enable_pretty_logging")
     backends = Backends(options.config)
+    print("forbi backends")
     pika_client = (
         PikaClient(options.rabbitmq, backends.exchanges) if options.rabbitmq.get('enabled')
         else None
     )
+    print("forbi pika client")
     app = Application(
         backends.routes,
         **{'pika_client': pika_client, 'debug': options.debug}
     )
+    print("forbi application")
     app.listen(options.port, max_body_size=options.max_body_size)
+    print("ferdig å lytte til conn")
     ioloop = IOLoop.instance()
+    print("forbi IOLoop.instance")
     if pika_client:
+        print("inni første if")
         ioloop.add_timeout(time.time() + .1, pika_client.connect)
+        print("forbi add_timeout")
     if options.projects_pool:
+        print("inni andre if")
         channel_projects = pg_listen_channel(options.projects_pool, 'channel_projects')
+        print("forbi pg_listen_channel")
         ioloop.add_handler(channel_projects, handle_iam_projects_events, IOLoop.READ)
+        print("forbi add_handler")
     ioloop.start()
+    print(print("forbi start"))
 
 
 if __name__ == '__main__':
