@@ -2503,9 +2503,12 @@ class Backends(object):
                     self.initdb(name, options)
         print("test 4")
         if self.config.get('rabbitmq', {}).get('enabled'):
+            print("test 5")
             print(colored('Finding rabbitmq exchanges', 'magenta'))
             for backend_set in self.config['backends']:
+                print("test 6")
                 for name, backend in options.config['backends'][backend_set].items():
+                    print("test 7")
                     self.find_exchanges(name, backend)
 
         if self.config.get('request_log'):
@@ -2543,8 +2546,10 @@ class Backends(object):
             return
 
     def find_exchanges(self, name: str, backend_config: dict) -> None:
+        print("find exchanges 1")
         mq_config = backend_config.get('mq')
         if not mq_config:
+            print("find exchanges 2")
             return
         print(
             colored(f'Backend: {name}, ', 'cyan'),
@@ -2552,9 +2557,11 @@ class Backends(object):
         )
         existing_exchanges = []
         for name, config in self.exchanges.items():
+            print("find exchanges 3")
             existing_exchanges.append(config.get('exchange'))
         if (not self.exchanges.get(name) and
             mq_config.get('exchange') not in existing_exchanges):
+            print("find exchanges 4")
             self.exchanges[name] = mq_config
 
 
