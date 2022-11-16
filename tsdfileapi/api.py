@@ -2580,6 +2580,7 @@ def main() -> None:
         PikaClient(options.rabbitmq, backends.exchanges) if options.rabbitmq.get('enabled')
         else None
     )
+
     print("forbi pika client")
     app = Application(
         backends.routes,
@@ -2590,10 +2591,14 @@ def main() -> None:
     print("ferdig å lytte til conn")
     ioloop = IOLoop.instance()
     print("forbi IOLoop.instance")
+
+    print(pika_client)
     if pika_client:
         print("inni første if")
         ioloop.add_timeout(time.time() + .1, pika_client.connect)
         print("forbi add_timeout")
+
+    print(options.projects_pool)
     if options.projects_pool:
         print("inni andre if")
         channel_projects = pg_listen_channel(options.projects_pool, 'channel_projects')
