@@ -12,12 +12,7 @@ valid_tenant_regex: '^[0-9a-z]+$'
 tenant_string_pattern: 'pXX'
 export_max_num_list: 100
 
-'''
-Test for max body size key-error
-'''
-max_body_size: 5368709120
-'''
-'''
+max_body_size: 5368709120 #testing purposes
 
 export_chunk_size: 512000
 
