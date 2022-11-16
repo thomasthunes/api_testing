@@ -2598,6 +2598,7 @@ def main() -> None:
         print("forbi pg_listen_channel")
         ioloop.add_handler(channel_projects, handle_iam_projects_events, IOLoop.READ)
         print("forbi add_handler")
+    print("before start")
     ioloop.start()
     print(print("forbi start"))
 
