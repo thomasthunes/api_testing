@@ -2493,12 +2493,15 @@ class Backends(object):
         if db_backends:
             define('pgpools', {})
             print(colored('Initialising database backends', 'magenta'))
+            print("test 1")
             for name, backend in db_backends:
+                print("test 2")
                 db_backend = self.database_backends[backend['db']['engine']]
                 print(colored(f"DB backend: {backend['db']['engine']}, {name}", 'cyan'))
                 if db_backend.generator_class.db_init_sql:
+                    print("test 3")
                     self.initdb(name, options)
-
+        print("test 4")
         if self.config.get('rabbitmq', {}).get('enabled'):
             print(colored('Finding rabbitmq exchanges', 'magenta'))
             for backend_set in self.config['backends']:
@@ -2513,8 +2516,10 @@ class Backends(object):
                 logging.warning(f'could not connect to request log db: {e}')
 
     def initdb(self, name: str, opts: tornado.options.OptionParser) -> None:
+        print("test 1 db")
         engine_type = options.config['backends']['dbs'][name]['db']['engine']
         if engine_type == 'postgres':
+            print("test 2 db")
             pool = postgres_init(options.config['backends']['dbs'][name]['db']['dbconfig'])
             options.pgpools[name] = pool
             db = PostgresBackend(pool)
